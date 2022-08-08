@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
+public delegate void Notify();
 public sealed class DialogueUISystem : MonoBehaviour
 {
 
     private static DialogueUISystem instance;
-    private bool isFinished = true;
+    public event Notify DialogueCompleted;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
 
@@ -35,14 +37,8 @@ public sealed class DialogueUISystem : MonoBehaviour
         CloseDialog();
     }
 
-    public bool IsFinished()
-    {
-        return isFinished;
-    }
-
     public void ShowDialogue(DialogueObject dialogueObject)
     {
-        isFinished = false;
         dialogueBox.SetActive(true);
 
         /*As Coroutine são assincronas,
@@ -55,7 +51,7 @@ public sealed class DialogueUISystem : MonoBehaviour
     public void CloseDialog()
     {
         dialogueBox.SetActive(false);
-        isFinished = true;
+        DialogueCompleted?.Invoke();
         textLabel.text = string.Empty;
     }
 

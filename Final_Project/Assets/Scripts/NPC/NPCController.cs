@@ -5,14 +5,19 @@ using UnityEngine;
 public class NPCController : MonoBehaviour, IInteractable
 {
     [SerializeField] private DialogueObject NPCDialogue;
-    private bool isInInteract = false;
     private bool isFinished = true;
 
     public void InteractEnter()
     {
-        isInInteract = true;
         isFinished = false;
         DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPCDialogue);
+        DialogueUISystem.GetDialogueUISystem().DialogueCompleted += () => whenCompleted();
+    }
+
+    private void whenCompleted()
+    {
+        this.isFinished = true;
+        DialogueUISystem.GetDialogueUISystem().DialogueCompleted -= () => whenCompleted();
     }
 
     public bool InteractExit()
@@ -20,11 +25,4 @@ public class NPCController : MonoBehaviour, IInteractable
         return isFinished;
     }
 
-    private void Update()
-    {
-        if ( isInInteract)
-        {
-            isFinished = DialogueUISystem.GetDialogueUISystem().IsFinished();
-        }
-    }
 }

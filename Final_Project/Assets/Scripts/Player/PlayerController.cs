@@ -49,15 +49,11 @@ public class PlayerController : MonoBehaviour
     {
         if (InputControllerSystem.GetInstance().GetInteract())
         {
-            if (!isInInteract)
+            if (!isInInteract && interactObj != null)
             {
-                if (interactObj != null)
-                {
-                    isInInteract = true;
-                    interactObj.GetComponent<IInteractable>().InteractEnter();
-                    ResourceSystem.GetResourceSystem().SetActiveHint(false);
-                    isInInteract = true;
-                }
+                isInInteract = true;
+                interactObj.GetComponent<IInteractable>().InteractEnter();
+                ResourceSystem.GetResourceSystem().SetActiveHint(false);
             } 
         }
     }

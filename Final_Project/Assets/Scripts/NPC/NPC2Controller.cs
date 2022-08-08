@@ -6,27 +6,24 @@ public class NPC2Controller : MonoBehaviour, IInteractable
 {
 
     [SerializeField] private DialogueObject NPC2Dialogue;
-    private bool isInInteract = false;
     private bool isFinished = true;
 
     public void InteractEnter()
     {
-        isInInteract = true;
         isFinished = false;
         DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPC2Dialogue);
+        DialogueUISystem.GetDialogueUISystem().DialogueCompleted += () => whenCompleted();
+    }
+
+    private void whenCompleted()
+    {
+        this.isFinished = true;
+        DialogueUISystem.GetDialogueUISystem().DialogueCompleted -= () => whenCompleted();
     }
 
     public bool InteractExit()
     {
         return isFinished;
-    }
-
-    private void Update()
-    {
-        if (isInInteract)
-        {
-            isFinished = DialogueUISystem.GetDialogueUISystem().IsFinished();
-        }
     }
 
 }
