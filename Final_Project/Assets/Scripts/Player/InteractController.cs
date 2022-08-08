@@ -1,38 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class InteractController : InputController
+public class InteractController : MonoBehaviour
 {
-    public GameObject interactHint;
     private GameObject interactObj = null;
     private IInteractable interfaceObj = null;
     private bool isInInteract = false;
 
-    void Start()
+    private void Update()
     {
-        interactHint = Instantiate(interactHint);
-        interactHint.SetActive(false);
-
-        input.Player.Interact.performed += ctx =>
+        if (InputControllerSystem.GetInstance().GetInteract())
         {
-            if (!isInInteract)
+            if (interactObj != null && interfaceObj != null && !isInInteract)
             {
-                if (interactObj != null && interfaceObj != null)
-                {
-                    isInInteract = true;
-                    transform.LookAt(interactObj.transform.position);
-                    interfaceObj.InteractEnter();
-                    GetComponent<MoveController>().HandlerMovement(false);
-                    interactHint.SetActive(false);
-                }
+                isInInteract = true;
+                interfaceObj.InteractEnter();
+                ResourceSystem.GetResourceSystem().SetActiveHint(false);
+                isInInteract = true;
             }
-            else
-            {
-                isInInteract = false;
-                GetComponent<MoveController>().HandlerMovement(true);
-            }
-        };
+        } 
     }
 
     private void OnTriggerEnter(Collider other)
@@ -43,8 +31,9 @@ public class InteractController : InputController
         {
             interactObj = other.gameObject;
             interfaceObj = component;
-            interactHint.transform.position = interactObj.transform.position + new Vector3(0f, 3f, 0f);
-            interactHint.SetActive(true);
+            Vector3 newPos = interactObj.transform.position + new Vector3(0f, 3f, 0f);
+            ResourceSystem.GetResourceSystem().SetPositionHint(newPos);
+            ResourceSystem.GetResourceSystem().SetActiveHint(true);
         } 
     }
 
@@ -54,9 +43,11 @@ public class InteractController : InputController
 
         if (component != null)
         {
+            component.InteractExit();
             interactObj = null;
             interfaceObj = null;
-            interactHint.SetActive(false);
+            isInInteract = false;
+            ResourceSystem.GetResourceSystem().SetActiveHint(false);
         }
     }
 }

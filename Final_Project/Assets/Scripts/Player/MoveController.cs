@@ -2,35 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveController : InputController
+public class MoveController : MonoBehaviour
 {
     private Vector2 movement = Vector2.zero;
-    public float speed;
-    public float speedRotate;
-    private bool canMove = true;
+    [SerializeField] private float speed;
+    [SerializeField] private float speedRotate;
 
-    void Start()
+    private void Update()
     {
-        input.Player.Move.performed += ctx => movement = ctx.ReadValue<Vector2>().normalized;
-
-        input.Player.Move.canceled += ctx => movement = Vector2.zero;
+        GetMovement();
+        PlayerMove();
+        PlayerRotate();
     }
 
-    void Update()
+    private void GetMovement()
     {
-        if(canMove)
-        {
-            PlayerMove();
-            PlayerRotate();
-        }
+        movement = InputControllerSystem.GetInstance().GetMove();
     }
 
-    public void HandlerMovement(bool playerMove)
-    {
-        canMove = playerMove;
-    }
-
-    void PlayerMove()
+    private void PlayerMove()
     {
         Vector3 moveV3 = new Vector3(movement.x, 0f, movement.y);
         Quaternion rotate = Quaternion.Euler(0f, 45f, 0f);
@@ -38,7 +28,7 @@ public class MoveController : InputController
         transform.position = transform.position + direction * Time.deltaTime * speed;
     }
 
-    void PlayerRotate()
+    private void PlayerRotate()
     {
         if (movement == Vector2.zero) return;
 

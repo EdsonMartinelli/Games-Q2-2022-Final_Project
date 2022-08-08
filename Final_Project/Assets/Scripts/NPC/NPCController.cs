@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour, IInteractable
 {
-
-    private int numberOfInteraction = 0;
+    [SerializeField] private DialogueObject NPCDialogue;
+    private bool isInInteract = false;
+    private bool isFinished = true;
 
     public void InteractEnter()
     {
-
-        numberOfInteraction++;
-        print("NPC1 entrou em diálogo. Interações: " + (int)numberOfInteraction);
+        isInInteract = true;
+        isFinished = false;
+        DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPCDialogue);
     }
 
-    public void InteractExit()
+    public bool InteractExit()
     {
-        print("NPC1 saiu do diálogo");
+        return isFinished;
+    }
+
+    private void Update()
+    {
+        if ( isInInteract)
+        {
+            isFinished = DialogueUISystem.GetDialogueUISystem().IsFinished();
+        }
     }
 }

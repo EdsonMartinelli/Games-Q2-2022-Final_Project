@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IInteractable
 {
     public void InteractEnter();
-    public void InteractExit();
+    public bool InteractExit();
 }

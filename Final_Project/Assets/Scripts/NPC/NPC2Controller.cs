@@ -5,17 +5,28 @@ using UnityEngine;
 public class NPC2Controller : MonoBehaviour, IInteractable
 {
 
-    private int numberOfInteraction = 0;
+    [SerializeField] private DialogueObject NPC2Dialogue;
+    private bool isInInteract = false;
+    private bool isFinished = true;
 
     public void InteractEnter()
     {
-        numberOfInteraction++;
-        print("NPC2 entrou em diálogo. Interações: " + (int) numberOfInteraction);
+        isInInteract = true;
+        isFinished = false;
+        DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPC2Dialogue);
     }
 
-    public void InteractExit()
+    public bool InteractExit()
     {
-        print("NPC2 saiu do diálogo");
+        return isFinished;
+    }
+
+    private void Update()
+    {
+        if (isInInteract)
+        {
+            isFinished = DialogueUISystem.GetDialogueUISystem().IsFinished();
+        }
     }
 
 }
