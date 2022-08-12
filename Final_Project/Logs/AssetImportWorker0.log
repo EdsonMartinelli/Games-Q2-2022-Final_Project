@@ -15,7 +15,25 @@ C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-60843
+53957
 Successfully changed project path to: C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 1746.01 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.28f1 (f5400f52e03f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.28f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Edson/Desktop/Projeto_Final/Final_Project/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics (ID=0x402)
+    Vendor:   
+    VRAM:     2048 MB
+    Driver:   20.19.15.4624
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.28f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.28f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.28f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56096
+Begin MonoManager ReloadAssembly

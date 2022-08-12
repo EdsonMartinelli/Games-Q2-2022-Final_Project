@@ -4,12 +4,12 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public delegate void Notify();
+public delegate void NotifyDialogue();
 public sealed class DialogueUISystem : MonoBehaviour
 {
 
     private static DialogueUISystem instance;
-    public event Notify DialogueCompleted;
+    public event NotifyDialogue DialogueCompleted;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
     [SerializeField] private GameObject continueButton;

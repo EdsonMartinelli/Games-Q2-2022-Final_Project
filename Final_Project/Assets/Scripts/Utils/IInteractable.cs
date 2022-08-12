@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum InteractionType
 {
     NPC,
@@ -12,7 +11,7 @@ public enum InteractionType
 
 public interface IInteractable
 {
-    public string GetInteractionType();
+    public InteractionType GetInteractionType();
     public void InteractionEnter();
-    public bool isInteractionCompleted();
+    public void InteractionExit();
 }

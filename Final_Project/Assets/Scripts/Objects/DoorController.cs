@@ -19,16 +19,14 @@ public class DoorController : MonoBehaviour,IInteractable
         isOpen = true;
     }
 
-    public bool isInteractionCompleted()
+    public void InteractionExit()
     {
         isOpen = false;
-        return isOpen;
     }
 
-
-    public string GetInteractionType()
+    public InteractionType GetInteractionType()
     {
-        return InteractionType.Object.ToString();
+        return InteractionType.Object;
     }
 
     private void Update()

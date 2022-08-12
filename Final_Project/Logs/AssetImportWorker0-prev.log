@@ -9,13 +9,13 @@ C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Unity.exe
 -batchMode
 -noUpm
 -name
-AssetImportWorker1
+AssetImportWorker0
 -projectPath
 C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 -logFile
-Logs/AssetImportWorker1.log
+Logs/AssetImportWorker0.log
 -srvPort
-53957
+60843
 Successfully changed project path to: C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 C:/Users/Edson/Desktop/Projeto_Final/Final_Project
 Using Asset Import Pipeline V2.
