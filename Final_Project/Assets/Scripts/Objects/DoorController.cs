@@ -5,14 +5,14 @@ using UnityEngine;
 public class DoorController : MonoBehaviour,IInteractable
 {
     private bool isOpen = false;
-    private Vector3 originalPos;
-    private Vector3 offset;
-
+    private Quaternion originalRotate;
+    private Transform pivot;
+    [SerializeField] private float smoothRotate;
 
     private void Awake()
     {
-        originalPos = transform.position;
-        offset = new Vector3(0f, 1.5f, 0f);
+        pivot = transform.parent.transform;
+        originalRotate = pivot.transform.rotation;
     }
     public void InteractionEnter()
     {
@@ -35,10 +35,11 @@ public class DoorController : MonoBehaviour,IInteractable
     {
         if (isOpen)
         {
-            transform.position = Vector3.Lerp(transform.position, originalPos + offset, Time.deltaTime * 10);
+            Quaternion rotate = Quaternion.Euler(0f, -90f, 0f);
+            pivot.rotation = Quaternion.Lerp(pivot.rotation, rotate, Time.deltaTime * smoothRotate);
         } else
         {
-            transform.position = Vector3.Lerp(transform.position, originalPos, Time.deltaTime * 10);
+            pivot.rotation = Quaternion.Lerp(pivot.rotation, originalRotate, Time.deltaTime * smoothRotate);
         }
     }
 }

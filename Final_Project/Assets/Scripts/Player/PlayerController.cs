@@ -65,18 +65,29 @@ public class PlayerController : MonoBehaviour
 
     private void VerifyIfDialogueIsCompleted()
     {
-         if (isInDialogue && interactObj != null)
-         {
-            if (interactObj.GetComponent<IInteractable>().GetInteractionType().Equals("NPC"))
+        /*if (isInDialogue && interactObj != null)
+        {
+           if (interactObj.GetComponent<IInteractable>().GetInteractionType().Equals("NPC"))
+           {
+               if (interactObj.GetComponent<IInteractable>().isInteractionCompleted())
+               {
+                   isInDialogue = false;
+                   interactObj = null;
+                   isInInteraction = false;
+               }
+           }
+        }*/
+        if (isInDialogue)
+        {
+
+            if (interactObj.GetComponent<IInteractable>().isInteractionCompleted())
             {
-                if (interactObj.GetComponent<IInteractable>().isInteractionCompleted())
-                {
-                    isInDialogue = false;
-                    interactObj = null;
-                    isInInteraction = false;
-                }
+                isInDialogue = false;
+                interactObj = null;
+                isInInteraction = false;
             }
-         }
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)
