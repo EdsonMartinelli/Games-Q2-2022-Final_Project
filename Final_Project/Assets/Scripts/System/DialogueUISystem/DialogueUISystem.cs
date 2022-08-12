@@ -12,6 +12,7 @@ public sealed class DialogueUISystem : MonoBehaviour
     public event Notify DialogueCompleted;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
+    [SerializeField] private GameObject continueButton;
 
     private DialogueUISystem() { }
 
@@ -59,8 +60,10 @@ public sealed class DialogueUISystem : MonoBehaviour
     {
         foreach (string dialogue in dialogueObject.GetDialogue())
         {
+            continueButton.SetActive(false);
             textLabel.text = dialogue;
             yield return new WaitForSeconds(1);
+            continueButton.SetActive(true);
             yield return new WaitUntil(() => InputControllerSystem.GetInstance().GetInteract());
         }
 

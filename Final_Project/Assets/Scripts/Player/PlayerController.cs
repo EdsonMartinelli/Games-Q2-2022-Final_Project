@@ -6,16 +6,17 @@ public class PlayerController : MonoBehaviour
 {
     private Vector2 movement = Vector2.zero;
     private Collider interactObj = null;
-    private bool isInInteract = false;
+    private bool isInDialogue = false;
+    private bool isInInteraction = false;
 
     [SerializeField] private float speed;
     [SerializeField] private float speedRotate;
 
     private void Update()
     {
-        VerifyInteractEnter();
-        VerifyInteractExit();
-        if (!isInInteract)
+        VerifyInteractionEnter();
+        VerifyIfDialogueIsCompleted();
+        if (!isInDialogue)
         {
             GetMovement();
             PlayerMove();
@@ -45,28 +46,37 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotate, Time.deltaTime * speedRotate);
     }
 
-    private void VerifyInteractEnter()
+    private void VerifyInteractionEnter()
     {
         if (InputControllerSystem.GetInstance().GetInteract())
         {
-            if (!isInInteract && interactObj != null)
+            if (!isInInteraction && interactObj != null)
             {
-                isInInteract = true;
-                interactObj.GetComponent<IInteractable>().InteractEnter();
+                if (interactObj.GetComponent<IInteractable>().GetInteractionType().Equals("NPC"))
+                {
+                    isInDialogue = true;
+                }
+                isInInteraction = true;
+                interactObj.GetComponent<IInteractable>().InteractionEnter();
                 ResourceSystem.GetResourceSystem().SetActiveHint(false);
             } 
         }
     }
 
-    private void VerifyInteractExit()
+    private void VerifyIfDialogueIsCompleted()
     {
-        if (isInInteract && interactObj != null)
-        {
-            if (interactObj.GetComponent<IInteractable>().InteractExit())
+         if (isInDialogue && interactObj != null)
+         {
+            if (interactObj.GetComponent<IInteractable>().GetInteractionType().Equals("NPC"))
             {
-                isInInteract = false;
+                if (interactObj.GetComponent<IInteractable>().isInteractionCompleted())
+                {
+                    isInDialogue = false;
+                    interactObj = null;
+                    isInInteraction = false;
+                }
             }
-        }
+         }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -88,8 +98,12 @@ public class PlayerController : MonoBehaviour
 
         if (component != null)
         {
+            if (!component.GetInteractionType().Equals("NPC"))
+            {
+                component.isInteractionCompleted();
+                isInInteraction = false;
+            }
             interactObj = null;
-            isInInteract = false;
             ResourceSystem.GetResourceSystem().SetActiveHint(false);
         }
     }

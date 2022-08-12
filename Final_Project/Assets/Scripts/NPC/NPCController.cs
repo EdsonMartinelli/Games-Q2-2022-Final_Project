@@ -7,7 +7,7 @@ public class NPCController : MonoBehaviour, IInteractable
     [SerializeField] private DialogueObject NPCDialogue;
     private bool isFinished = true;
 
-    public void InteractEnter()
+    public void InteractionEnter()
     {
         isFinished = false;
         DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPCDialogue);
@@ -20,9 +20,14 @@ public class NPCController : MonoBehaviour, IInteractable
         DialogueUISystem.GetDialogueUISystem().DialogueCompleted -= () => whenCompleted();
     }
 
-    public bool InteractExit()
+    public bool isInteractionCompleted()
     {
         return isFinished;
+    }
+
+    public string GetInteractionType()
+    {
+        return InteractionType.NPC.ToString();
     }
 
 }
