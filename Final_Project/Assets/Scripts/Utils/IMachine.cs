@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IMachine : IInteractable
 {
-    public void GetItem();
+    public Item GetItem();
 }

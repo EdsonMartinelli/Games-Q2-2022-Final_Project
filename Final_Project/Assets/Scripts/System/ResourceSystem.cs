@@ -38,4 +38,9 @@ public sealed class ResourceSystem : MonoBehaviour
         interactHint.transform.position = pos;
     }
 
+    public void SetRotationHint(Quaternion rotation)
+    {
+        interactHint.transform.rotation = rotation;
+    }
+
 }

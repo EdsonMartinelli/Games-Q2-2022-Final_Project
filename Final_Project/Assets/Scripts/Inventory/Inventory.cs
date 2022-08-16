@@ -4,14 +4,17 @@ using System.Collections.Generic;
 public class Inventory
 {
     private Queue<Item> inventory;
-    public Inventory ()
+    private int size;
+
+    public Inventory(int size)
     {
         inventory = new Queue<Item>();
+        this.size = size;
     }
 
     public bool AddItem(Item item)
     {
-        if(inventory.Count >= 3)
+        if(inventory.Count >= size)
         {
             return false;
         }
@@ -22,6 +25,22 @@ public class Inventory
 
     public Item GetItem()
     {
-        return inventory.Dequeue();
+        if(inventory.Count > 0)
+        {
+            return inventory.Dequeue();
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+    public Queue<Item> GetQueue()
+    {
+        return inventory;
     }
 }

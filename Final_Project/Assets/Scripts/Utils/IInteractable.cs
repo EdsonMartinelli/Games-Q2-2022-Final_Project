@@ -8,7 +8,8 @@ public interface IInteractable
     {
         NPC,
         Object,
-        Machine
+        Machine,
+        Trash
     }
 
     public InteractionType GetInteractionType();

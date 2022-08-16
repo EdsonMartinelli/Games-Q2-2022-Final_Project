@@ -39,7 +39,8 @@ public sealed class InputControllerSystem : MonoBehaviour
 
     public bool GetInteract()
     {
-        return interact.IsPressed();
+        //return interact.IsPressed();
+        return interact.WasReleasedThisFrame();
     }
 
     private void OnEnable() => input.Player.Enable();

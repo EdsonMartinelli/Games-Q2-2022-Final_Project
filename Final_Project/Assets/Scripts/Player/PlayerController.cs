@@ -8,9 +8,16 @@ public class PlayerController : MonoBehaviour
     private Collider interactObj = null;
     private bool isInDialogue = false;
     private bool isInInteraction = false;
+    private Inventory inventory;
 
     [SerializeField] private float speed;
     [SerializeField] private float speedRotate;
+
+
+    private void Awake()
+    {
+        inventory = new Inventory(3); 
+    }
 
     private void Update()
     {
@@ -68,7 +75,39 @@ public class PlayerController : MonoBehaviour
                         break;
 
                     case IInteractable.InteractionType.Machine:
-                        interactObj.GetComponent<IMachine>().GetItem();
+                        Item newItem = interactObj.GetComponent<IMachine>().GetItem();
+                        string texto = string.Empty;
+                        if (inventory.AddItem(newItem))
+                        {
+                            foreach(Item itenzinho in inventory.GetQueue().ToArray())
+                            {
+                                texto = texto + " " + itenzinho.GetItemType();
+                            }
+                            print(texto);
+                        } else
+                        {
+                            print("A fila está cheia.");
+                        }
+                        isInInteraction = false;
+                        ResourceSystem.GetResourceSystem().SetActiveHint(true);
+                        break;
+
+                    case IInteractable.InteractionType.Trash:
+                        bool wasItemRemoved = interactObj.GetComponent<ITrash>().RemoveItem(inventory);
+                        string texto2 = string.Empty;
+                        if (wasItemRemoved)
+                        {
+                            foreach (Item itenzinho in inventory.GetQueue().ToArray())
+                            {
+                                texto2 = texto2 + " " + itenzinho.GetItemType();
+                            }
+                            print(texto2);
+                        } else
+                        {
+                            print("Não existia itens para serem removidos");
+                        }
+                        isInInteraction = false;
+                        ResourceSystem.GetResourceSystem().SetActiveHint(true);
                         break;
 
                     default: break;
@@ -92,8 +131,11 @@ public class PlayerController : MonoBehaviour
         if (component != null)
         {
             interactObj = other;
-            Vector3 newPos = other.gameObject.transform.position + new Vector3(0f, 3f, 0f);
+            Transform objectTransform = other.gameObject.transform;
+            Vector3 positionNeutralite = new Vector3(objectTransform.position.x, 0f, objectTransform.position.z);
+            Vector3 newPos = positionNeutralite + new Vector3(0f, other.bounds.size.y + 2f, 0f);
             ResourceSystem.GetResourceSystem().SetPositionHint(newPos);
+            ResourceSystem.GetResourceSystem().SetRotationHint(other.gameObject.transform.rotation);
             ResourceSystem.GetResourceSystem().SetActiveHint(true);
         }
     }
