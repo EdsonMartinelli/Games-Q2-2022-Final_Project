@@ -51,15 +51,28 @@ public class PlayerController : MonoBehaviour
         {
             if (!isInInteraction && interactObj != null)
             {
-                if (interactObj.GetComponent<IInteractable>().GetInteractionType() == InteractionType.NPC)
-                {
-                    isInDialogue = true;
-                    DialogueUISystem.GetDialogueUISystem().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
-                }
-
+                IInteractable.InteractionType typeOfInteraction = interactObj.GetComponent<IInteractable>().GetInteractionType();
                 isInInteraction = true;
-                interactObj.GetComponent<IInteractable>().InteractionEnter();
                 ResourceSystem.GetResourceSystem().SetActiveHint(false);
+
+                switch (typeOfInteraction)
+                {
+                    case IInteractable.InteractionType.NPC:
+                        isInDialogue = true;
+                        DialogueUISystem.GetDialogueUISystem().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
+                        interactObj.GetComponent<INPC>().DialogueEnter();
+                        break;
+
+                    case IInteractable.InteractionType.Object:
+                        interactObj.GetComponent<IObject>().InteractionEnter();
+                        break;
+
+                    case IInteractable.InteractionType.Machine:
+                        interactObj.GetComponent<IMachine>().GetItem();
+                        break;
+
+                    default: break;
+                }
             } 
         }
     }
@@ -91,10 +104,9 @@ public class PlayerController : MonoBehaviour
 
         if (component != null)
         {
-            if (component.GetInteractionType() != InteractionType.NPC)
+            if (component.GetInteractionType() == IInteractable.InteractionType.Object)
             {
-                print("teste");
-                component.InteractionExit();
+                other.GetComponent<IObject>().InteractionExit();
                 isInInteraction = false;
             }
             interactObj = null;

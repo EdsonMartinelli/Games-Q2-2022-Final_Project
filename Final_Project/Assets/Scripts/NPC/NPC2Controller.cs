@@ -2,22 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC2Controller : MonoBehaviour, IInteractable
+public class NPC2Controller : MonoBehaviour, INPC
 {
     [SerializeField] private DialogueObject NPC2Dialogue;
 
-    public void InteractionEnter()
+    public void DialogueEnter()
     {
-        DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPC2Dialogue);
+        DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPC2Dialogue.GetDialogue());
     }
 
-    public void InteractionExit()
+    public IInteractable.InteractionType GetInteractionType()
     {
-       
-    }
-
-    public InteractionType GetInteractionType()
-    {
-        return InteractionType.NPC;
+        return IInteractable.InteractionType.NPC;
     }
 }

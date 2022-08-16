@@ -10,6 +10,7 @@ public sealed class DialogueUISystem : MonoBehaviour
 
     private static DialogueUISystem instance;
     public event NotifyDialogue DialogueCompleted;
+
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
     [SerializeField] private GameObject continueButton;
@@ -38,7 +39,7 @@ public sealed class DialogueUISystem : MonoBehaviour
         CloseDialog();
     }
 
-    public void ShowDialogue(DialogueObject dialogueObject)
+    public void ShowDialogue(string[] dialogue)
     {
         dialogueBox.SetActive(true);
 
@@ -46,7 +47,7 @@ public sealed class DialogueUISystem : MonoBehaviour
          * as linha seguintes a função irão rodar mesmo que a coroutine
          * esteja em andamento.*/
 
-        StartCoroutine(GetEachDialogue(dialogueObject));
+        StartCoroutine(GetEachDialogue(dialogue));
     }
 
     public void CloseDialog()
@@ -56,12 +57,12 @@ public sealed class DialogueUISystem : MonoBehaviour
         textLabel.text = string.Empty;
     }
 
-    private IEnumerator GetEachDialogue(DialogueObject dialogueObject)
+    private IEnumerator GetEachDialogue(string[] dialogue)
     {
-        foreach (string dialogue in dialogueObject.GetDialogue())
+        foreach (string phrase in dialogue)
         {
             continueButton.SetActive(false);
-            textLabel.text = dialogue;
+            textLabel.text = phrase;
             yield return new WaitForSeconds(1);
             continueButton.SetActive(true);
             yield return new WaitUntil(() => InputControllerSystem.GetInstance().GetInteract());

@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour,IInteractable
+public class DoorController : MonoBehaviour, IObject
 {
     private bool isOpen = false;
     private Quaternion originalRotate;
     private Transform pivot;
+
     [SerializeField] private float smoothRotate;
 
     private void Awake()
@@ -24,9 +25,9 @@ public class DoorController : MonoBehaviour,IInteractable
         isOpen = false;
     }
 
-    public InteractionType GetInteractionType()
+    public IInteractable.InteractionType GetInteractionType()
     {
-        return InteractionType.Object;
+        return IInteractable.InteractionType.Object;
     }
 
     private void Update()

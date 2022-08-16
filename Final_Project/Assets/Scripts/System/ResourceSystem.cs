@@ -18,6 +18,7 @@ public sealed class ResourceSystem : MonoBehaviour
         {
             instance = this;
             interactHint = Instantiate(interactHint);
+            interactHint.transform.rotation = Quaternion.Euler(0f, 45f, 0f);
             interactHint.SetActive(false);
         }
     }
@@ -36,4 +37,5 @@ public sealed class ResourceSystem : MonoBehaviour
     {
         interactHint.transform.position = pos;
     }
+
 }
