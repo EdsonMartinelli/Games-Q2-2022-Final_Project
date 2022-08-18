@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour, IObject
+public class DoorStartController : MonoBehaviour, IObject
 {
     private bool isOpen = false;
+    private bool isStarted = false;
     private Quaternion pivotRotate;
     private Transform pivot;
     private Quaternion rotate;
@@ -24,7 +25,8 @@ public class DoorController : MonoBehaviour, IObject
 
     public void InteractionExit()
     {
-        isOpen = false;
+        isStarted = true;
+        GameManager.GetGameManager().StartStopwatch();
     }
 
     public IInteractable.InteractionType GetInteractionType()
@@ -34,14 +36,12 @@ public class DoorController : MonoBehaviour, IObject
 
     private void Update()
     {
-        if (isOpen)
+        if (isOpen && !isStarted)
         {
             pivot.rotation = Quaternion.Lerp(pivot.rotation, rotate, Time.deltaTime * smoothRotate);
-            GetComponent<BoxCollider>().enabled = false;
         } else
         {
             pivot.rotation = Quaternion.Lerp(pivot.rotation, pivotRotate, Time.deltaTime * smoothRotate);
-            GetComponent<BoxCollider>().enabled = true;
         }
     }
 }

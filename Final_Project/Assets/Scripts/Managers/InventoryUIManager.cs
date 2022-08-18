@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryUISystem : MonoBehaviour
+public sealed class InventoryUIManager : MonoBehaviour
 {
-    private static InventoryUISystem instance;
+    private static InventoryUIManager instance;
     private float itemBoxSize;
     private float offset;
 
@@ -13,9 +13,9 @@ public class InventoryUISystem : MonoBehaviour
     [SerializeField] private int numberOfItems = 3;
     [SerializeField] private GameObject ItemBox;
 
-    private InventoryUISystem() { }
+    private InventoryUIManager() { }
 
-    public static InventoryUISystem GetInvetoryUISystem()
+    public static InventoryUIManager GetInvetoryUIManager()
     {
         return instance;
     }
@@ -41,7 +41,7 @@ public class InventoryUISystem : MonoBehaviour
 
         foreach (Transform child in ItemBox.transform)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
         }
 
         foreach (Item item in inventory.GetQueue().ToArray())

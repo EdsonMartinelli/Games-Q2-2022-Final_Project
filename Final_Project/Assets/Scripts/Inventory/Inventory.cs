@@ -20,7 +20,7 @@ public class Inventory
         }
 
         inventory.Enqueue(item);
-        InventoryUISystem.GetInvetoryUISystem().UpdateInventory(this);
+        InventoryUIManager.GetInvetoryUIManager().UpdateInventory(this);
         return true;
     }
 
@@ -29,7 +29,7 @@ public class Inventory
         if(inventory.Count > 0)
         {
             Item item = inventory.Dequeue();
-            InventoryUISystem.GetInvetoryUISystem().UpdateInventory(this);
+            InventoryUIManager.GetInvetoryUIManager().UpdateInventory(this);
             return item;
         }
         return null;

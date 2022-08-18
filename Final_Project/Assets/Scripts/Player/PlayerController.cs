@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private Collider interactObj = null;
     private bool isInDialogue = false;
     private bool isInInteraction = false;
+    private GameObject interactHint;
     private Inventory inventory;
 
     [SerializeField] private float speed;
@@ -16,7 +17,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        inventory = new Inventory(3); 
+        inventory = new Inventory(3);
+        interactHint = Instantiate(ResourceSystem.GetResourceSystem().GetInteractHint());
+        interactHint.SetActive(false);
     }
 
     private void Update()
@@ -60,13 +63,13 @@ public class PlayerController : MonoBehaviour
             {
                 IInteractable.InteractionType typeOfInteraction = interactObj.GetComponent<IInteractable>().GetInteractionType();
                 isInInteraction = true;
-                ResourceSystem.GetResourceSystem().SetActiveHint(false);
+                interactHint.SetActive(false);
 
                 switch (typeOfInteraction)
                 {
                     case IInteractable.InteractionType.NPC:
                         isInDialogue = true;
-                        DialogueUISystem.GetDialogueUISystem().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
+                        DialogueUIManager.GetDialogueUIManager().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
                         interactObj.GetComponent<INPC>().DialogueEnter();
                         break;
 
@@ -76,38 +79,33 @@ public class PlayerController : MonoBehaviour
 
                     case IInteractable.InteractionType.Machine:
                         Item newItem = interactObj.GetComponent<IMachine>().GetItem();
-                        string texto = string.Empty;
-                        if (inventory.AddItem(newItem))
+                        bool wasItemAdded = inventory.AddItem(newItem);
+                        if (wasItemAdded)
                         {
-                            foreach(Item itenzinho in inventory.GetQueue().ToArray())
-                            {
-                                texto = texto + " " + itenzinho.GetItemType();
-                            }
-                            print(texto);
+                            isInInteraction = false;
+                            interactHint.SetActive(true);
                         } else
                         {
-                            print("A fila está cheia.");
+                            isInDialogue = true;
+                            string[] message = { "Seu inventario está cheio." };
+                            DialogueUIManager.GetDialogueUIManager().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
+                            DialogueUIManager.GetDialogueUIManager().ShowDialogue(message);
                         }
-                        isInInteraction = false;
-                        ResourceSystem.GetResourceSystem().SetActiveHint(true);
                         break;
 
                     case IInteractable.InteractionType.Trash:
                         bool wasItemRemoved = interactObj.GetComponent<ITrash>().RemoveItem(inventory);
-                        string texto2 = string.Empty;
                         if (wasItemRemoved)
                         {
-                            foreach (Item itenzinho in inventory.GetQueue().ToArray())
-                            {
-                                texto2 = texto2 + " " + itenzinho.GetItemType();
-                            }
-                            print(texto2);
+                            isInInteraction = false;
+                            interactHint.SetActive(true);
                         } else
                         {
-                            print("Não existia itens para serem removidos");
+                            isInDialogue = true;
+                            string[] message = { "Seu inventario está vazio." };
+                            DialogueUIManager.GetDialogueUIManager().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
+                            DialogueUIManager.GetDialogueUIManager().ShowDialogue(message);
                         }
-                        isInInteraction = false;
-                        ResourceSystem.GetResourceSystem().SetActiveHint(true);
                         break;
 
                     default: break;
@@ -118,10 +116,9 @@ public class PlayerController : MonoBehaviour
 
     private void VerifyIfDialogueIsCompleted()
     {
-        DialogueUISystem.GetDialogueUISystem().DialogueCompleted -= () => VerifyIfDialogueIsCompleted();
         isInDialogue = false;
-        interactObj = null;
         isInInteraction = false;
+        interactHint.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -134,9 +131,9 @@ public class PlayerController : MonoBehaviour
             Transform objectTransform = other.gameObject.transform;
             Vector3 positionNeutralite = new Vector3(objectTransform.position.x, 0f, objectTransform.position.z);
             Vector3 newPos = positionNeutralite + new Vector3(0f, other.bounds.size.y + 2f, 0f);
-            ResourceSystem.GetResourceSystem().SetPositionHint(newPos);
-            ResourceSystem.GetResourceSystem().SetRotationHint(other.gameObject.transform.rotation);
-            ResourceSystem.GetResourceSystem().SetActiveHint(true);
+            interactHint.transform.position = newPos;
+            interactHint.transform.rotation = other.gameObject.transform.rotation;
+            interactHint.SetActive(true);
         }
     }
 
@@ -152,7 +149,7 @@ public class PlayerController : MonoBehaviour
                 isInInteraction = false;
             }
             interactObj = null;
-            ResourceSystem.GetResourceSystem().SetActiveHint(false);
+            interactHint.SetActive(false);
         }
     }
 }

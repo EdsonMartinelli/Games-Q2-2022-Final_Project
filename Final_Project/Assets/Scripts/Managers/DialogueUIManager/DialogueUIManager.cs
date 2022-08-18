@@ -4,19 +4,19 @@ using UnityEngine;
 using TMPro;
 
 public delegate void NotifyDialogue();
-public sealed class DialogueUISystem : MonoBehaviour
+public sealed class DialogueUIManager : MonoBehaviour
 {
 
-    private static DialogueUISystem instance;
+    private static DialogueUIManager instance;
     public event NotifyDialogue DialogueCompleted;
 
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
     [SerializeField] private GameObject continueButton;
 
-    private DialogueUISystem() { }
+    private DialogueUIManager() { }
 
-    public static DialogueUISystem GetDialogueUISystem()
+    public static DialogueUIManager GetDialogueUIManager()
     {
         return instance;
     }
@@ -30,16 +30,13 @@ public sealed class DialogueUISystem : MonoBehaviour
         else
         {
             instance = this;
+            dialogueBox.SetActive(false);
         }
-    }
-
-    private void Start()
-    {
-        CloseDialog();
     }
 
     public void ShowDialogue(string[] dialogue)
     {
+
         dialogueBox.SetActive(true);
 
         /*As Coroutine são assincronas,
@@ -53,6 +50,7 @@ public sealed class DialogueUISystem : MonoBehaviour
     {
         dialogueBox.SetActive(false);
         DialogueCompleted?.Invoke();
+        DialogueCompleted = null;
         textLabel.text = string.Empty;
     }
 

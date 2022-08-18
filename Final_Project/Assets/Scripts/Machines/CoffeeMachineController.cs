@@ -11,7 +11,7 @@ public class CoffeeMachineController : MonoBehaviour, IMachine
 
     public Item GetItem()
     {
-        Item newItem = new Item(Item.ItemType.Cafe);
+        Item newItem = new Item(Item.ItemType.Coffee);
         return newItem;
     }
 }

@@ -5,9 +5,12 @@ public class Item
 {
     public enum ItemType
     {
-        Cerveja,
-        Cafe,
-        Alimento
+        Beer,
+        Coffee,
+        Food,
+        Juice,
+        Water,
+        Lunch
     }
 
     private ItemType type;

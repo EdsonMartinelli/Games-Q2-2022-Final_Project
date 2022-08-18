@@ -11,7 +11,7 @@ public class FoodMachineController : MonoBehaviour, IMachine
 
     public Item GetItem()
     {
-        Item newItem = new Item(Item.ItemType.Alimento);
+        Item newItem = new Item(Item.ItemType.Food);
         return newItem;
     }
 }

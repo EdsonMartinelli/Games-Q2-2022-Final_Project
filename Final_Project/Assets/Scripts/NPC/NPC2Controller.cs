@@ -8,7 +8,7 @@ public class NPC2Controller : MonoBehaviour, INPC
 
     public void DialogueEnter()
     {
-        DialogueUISystem.GetDialogueUISystem().ShowDialogue(NPC2Dialogue.GetDialogue());
+        DialogueUIManager.GetDialogueUIManager().ShowDialogue(NPC2Dialogue.GetDialogue());
     }
 
     public IInteractable.InteractionType GetInteractionType()

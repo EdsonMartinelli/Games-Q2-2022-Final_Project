@@ -9,6 +9,9 @@ public sealed class ResourceSystem : MonoBehaviour
     [SerializeField] private Sprite beer;
     [SerializeField] private Sprite coffee;
     [SerializeField] private Sprite food;
+    [SerializeField] private Sprite juice;
+    [SerializeField] private Sprite water;
+    [SerializeField] private Sprite lunch;
     private ResourceSystem() { }
 
     private void Awake()
@@ -20,9 +23,6 @@ public sealed class ResourceSystem : MonoBehaviour
         else
         {
             instance = this;
-            interactHint = Instantiate(interactHint);
-            interactHint.transform.rotation = Quaternion.Euler(0f, 45f, 0f);
-            interactHint.SetActive(false);
         }
     }
 
@@ -31,28 +31,21 @@ public sealed class ResourceSystem : MonoBehaviour
         return instance;
     }
 
-    public void SetActiveHint(bool mode)
+    public GameObject GetInteractHint()
     {
-        interactHint.SetActive(mode);
-    }
-
-    public void SetPositionHint(Vector3 pos)
-    {
-        interactHint.transform.position = pos;
-    }
-
-    public void SetRotationHint(Quaternion rotation)
-    {
-        interactHint.transform.rotation = rotation;
+        return interactHint;
     }
 
     public Sprite GetSprite(Item.ItemType type)
     {
         switch (type)
         {
-            case Item.ItemType.Cerveja: return beer;
-            case Item.ItemType.Cafe: return coffee;
-            case Item.ItemType.Alimento: return food;
+            case Item.ItemType.Beer: return beer;
+            case Item.ItemType.Coffee: return coffee;
+            case Item.ItemType.Food: return food;
+            case Item.ItemType.Juice: return juice;
+            case Item.ItemType.Water: return water;
+            case Item.ItemType.Lunch: return lunch;
             default: return null;
         }
     }
