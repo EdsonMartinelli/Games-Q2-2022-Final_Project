@@ -6,6 +6,9 @@ public sealed class ResourceSystem : MonoBehaviour
 {
     private static ResourceSystem instance;
     [SerializeField] private GameObject interactHint;
+    [SerializeField] private Sprite beer;
+    [SerializeField] private Sprite coffee;
+    [SerializeField] private Sprite food;
     private ResourceSystem() { }
 
     private void Awake()
@@ -42,5 +45,17 @@ public sealed class ResourceSystem : MonoBehaviour
     {
         interactHint.transform.rotation = rotation;
     }
+
+    public Sprite GetSprite(Item.ItemType type)
+    {
+        switch (type)
+        {
+            case Item.ItemType.Cerveja: return beer;
+            case Item.ItemType.Cafe: return coffee;
+            case Item.ItemType.Alimento: return food;
+            default: return null;
+        }
+    }
+
 
 }
