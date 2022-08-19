@@ -6,6 +6,7 @@ public class DoorStartController : MonoBehaviour, IObject
 {
     private bool isOpen = false;
     private bool isStarted = false;
+    private bool enterInDoor = false;
     private Quaternion pivotRotate;
     private Transform pivot;
     private Quaternion rotate;
@@ -21,12 +22,16 @@ public class DoorStartController : MonoBehaviour, IObject
     public void InteractionEnter()
     {
         isOpen = true;
+        enterInDoor = true;
     }
 
     public void InteractionExit()
     {
-        isStarted = true;
-        GameManager.GetGameManager().StartStopwatch();
+        if (enterInDoor)
+        {
+            isStarted = true;
+            GameManager.GetGameManager().StartStopwatch();
+        }
     }
 
     public IInteractable.InteractionType GetInteractionType()
