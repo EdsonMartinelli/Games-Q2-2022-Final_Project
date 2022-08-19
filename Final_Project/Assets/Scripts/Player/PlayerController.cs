@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
                     case IInteractable.InteractionType.NPC:
                         isInDialogue = true;
                         DialogueUIManager.GetDialogueUIManager().DialogueCompleted += () => VerifyIfDialogueIsCompleted();
-                        interactObj.GetComponent<INPC>().DialogueEnter();
+                        interactObj.GetComponent<INPC>().DialogueEnter(inventory);
                         break;
 
                     case IInteractable.InteractionType.Object:

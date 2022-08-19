@@ -10,12 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44fa520884c16604f8fb5542d3c8ed13, type: 3}
-  m_Name: NPCText
+  m_Name: NPCAfterServedSuccess
   m_EditorClassIdentifier: 
   dialogue:
-  - 'Hello!
-
-    I am the NPC1.'
-  - 'This is my second dialogue.
-
-    GoodBye!'
+  - "Obrigado, aqui est\xE1 o dinheiro!"

@@ -18,6 +18,7 @@ public class TrashController : MonoBehaviour, ITrash
             return false;
         }
 
+        MoneyUIManager.GetMoneyUIManager().updateMoney(-10);
         return true;
     }
 }

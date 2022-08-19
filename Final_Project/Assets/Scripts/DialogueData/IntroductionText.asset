@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: IntroductionText
   m_EditorClassIdentifier: 
   dialogue:
-  - Bla bla bla bla bla.
-  - Bla2 bla2 bla2 bla2 bla2.
-  - Bla3 bla3 bla3 bla3 bla3.
-  - Bla4 bla4 bla4 bla4 bla4.
+  - "Ap\xF3s o falecimento de seus pais, voc\xEA e seu irm\xE3o buscam uma forma
+    de continuar a vida e se sustentar."
+  - "Infelizmente seu irm\xE3o tamb\xE9m apresenta sinais da mesma doen\xE7a que
+    matou seus pais, a escarlatina."
+  - A vila de Hampstone se mostrou uma boa oportunidade para melhorar de vida.
+  - "Voc\xEA foi contratado por Harry Bullgard e trabalhar\xE1 de atendente na Bullgard
+    Inc."

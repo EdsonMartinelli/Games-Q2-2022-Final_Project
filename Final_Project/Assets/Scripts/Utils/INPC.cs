@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface INPC : IInteractable
 {
-    public void DialogueEnter();
+    public void DialogueEnter(Inventory inventory);
 }

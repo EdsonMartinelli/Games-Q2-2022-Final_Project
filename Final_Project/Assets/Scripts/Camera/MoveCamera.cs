@@ -8,6 +8,11 @@ public class MoveCamera : MonoBehaviour
     public float cameraSmooth;
 
     /// Start is called before the first frame update
+    private void Awake()
+    {
+        transform.position = player.transform.position;
+    }
+
     void Start()
     {
         
